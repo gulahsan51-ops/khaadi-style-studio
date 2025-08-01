@@ -33,43 +33,43 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
             <div className="relative group">
-              <button className="font-medium hover:text-primary transition-colors">
+              <a href="/women" className="font-medium hover:text-primary transition-colors">
                 WOMEN
-              </button>
+              </a>
               <div className="absolute top-full left-0 w-64 bg-background border shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                 <div className="p-4 space-y-2">
-                  <a href="#" className="block hover:text-primary">Pret Wear</a>
-                  <a href="#" className="block hover:text-primary">Unstitched</a>
-                  <a href="#" className="block hover:text-primary">Formals</a>
-                  <a href="#" className="block hover:text-primary">Luxury Wear</a>
-                  <a href="#" className="block hover:text-primary">Casuals</a>
-                  <a href="#" className="block hover:text-primary">Bottoms</a>
-                  <a href="#" className="block hover:text-primary">Dupattas</a>
-                  <a href="#" className="block hover:text-primary">Accessories</a>
+                  <a href="/women#pret" className="block hover:text-primary">Pret Wear</a>
+                  <a href="/women#unstitched" className="block hover:text-primary">Unstitched</a>
+                  <a href="/women#formals" className="block hover:text-primary">Formals</a>
+                  <a href="/women#luxury" className="block hover:text-primary">Luxury Wear</a>
+                  <a href="/women#casuals" className="block hover:text-primary">Casuals</a>
+                  <a href="/women#bottoms" className="block hover:text-primary">Bottoms</a>
+                  <a href="/women#dupattas" className="block hover:text-primary">Dupattas</a>
+                  <a href="/women#accessories" className="block hover:text-primary">Accessories</a>
                 </div>
               </div>
             </div>
             
             <div className="relative group">
-              <button className="font-medium hover:text-primary transition-colors">
+              <a href="/men" className="font-medium hover:text-primary transition-colors">
                 MEN
-              </button>
+              </a>
               <div className="absolute top-full left-0 w-64 bg-background border shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                 <div className="p-4 space-y-2">
-                  <a href="#" className="block hover:text-primary">Kurtas</a>
-                  <a href="#" className="block hover:text-primary">Waistcoats</a>
-                  <a href="#" className="block hover:text-primary">Shalwar Kameez</a>
-                  <a href="#" className="block hover:text-primary">Casual Shirts</a>
-                  <a href="#" className="block hover:text-primary">Formal Shirts</a>
-                  <a href="#" className="block hover:text-primary">Trousers</a>
-                  <a href="#" className="block hover:text-primary">Unstitched</a>
-                  <a href="#" className="block hover:text-primary">Accessories</a>
+                  <a href="/men#kurtas" className="block hover:text-primary">Kurtas</a>
+                  <a href="/men#waistcoats" className="block hover:text-primary">Waistcoats</a>
+                  <a href="/men#shalwar" className="block hover:text-primary">Shalwar Kameez</a>
+                  <a href="/men#casual" className="block hover:text-primary">Casual Shirts</a>
+                  <a href="/men#formal" className="block hover:text-primary">Formal Shirts</a>
+                  <a href="/men#trousers" className="block hover:text-primary">Trousers</a>
+                  <a href="/men#unstitched" className="block hover:text-primary">Unstitched</a>
+                  <a href="/men#accessories" className="block hover:text-primary">Accessories</a>
                 </div>
               </div>
             </div>
             
-            <button className="font-medium hover:text-primary transition-colors">NEW ARRIVALS</button>
-            <button className="font-medium hover:text-primary transition-colors">SALE</button>
+            <a href="/new-arrivals" className="font-medium hover:text-primary transition-colors">NEW ARRIVALS</a>
+            <a href="/sale" className="font-medium hover:text-primary transition-colors">SALE</a>
           </nav>
 
           {/* Search and Actions */}
@@ -84,18 +84,24 @@ const Header = () => {
             </div>
 
             {/* Action Buttons */}
-            <Button variant="ghost" size="icon">
-              <User className="h-5 w-5" />
-            </Button>
-            <Button variant="ghost" size="icon">
-              <Heart className="h-5 w-5" />
-            </Button>
-            <Button variant="ghost" size="icon" className="relative">
-              <ShoppingBag className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                0
-              </span>
-            </Button>
+            <a href="/account">
+              <Button variant="ghost" size="icon">
+                <User className="h-5 w-5" />
+              </Button>
+            </a>
+            <a href="/wishlist">
+              <Button variant="ghost" size="icon">
+                <Heart className="h-5 w-5" />
+              </Button>
+            </a>
+            <a href="/cart">
+              <Button variant="ghost" size="icon" className="relative">
+                <ShoppingBag className="h-5 w-5" />
+                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  0
+                </span>
+              </Button>
+            </a>
 
             {/* Mobile Menu Toggle */}
             <Button

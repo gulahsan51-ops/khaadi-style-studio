@@ -64,7 +64,9 @@ const ProductSection = ({ title, subtitle, products }: ProductSectionProps) => {
                 
                 {/* Quick View Overlay */}
                 <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <Button variant="secondary">Quick View</Button>
+                  <a href={`/product/${product.id}`}>
+                    <Button variant="secondary">Quick View</Button>
+                  </a>
                 </div>
               </div>
               
