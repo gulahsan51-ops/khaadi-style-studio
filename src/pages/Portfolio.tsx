@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,14 +20,53 @@ import {
   Settings,
   ChevronDown,
   Star,
-  GitFork
+  GitFork,
+  Sparkles,
+  Zap,
+  Rocket
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const Portfolio = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [currentText, setCurrentText] = useState(0);
+  const [isVisible, setIsVisible] = useState({});
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const { toast } = useToast();
+  const sectionRefs = useRef({});
+
+  // Track mouse movement for interactive effects
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  // Intersection Observer for scroll animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsVisible(prev => ({
+            ...prev,
+            [entry.target.id]: entry.isIntersecting
+          }));
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    // Observe sections when they're available
+    const sections = ['home', 'about', 'skills', 'projects', 'contact'];
+    sections.forEach(sectionId => {
+      const element = document.getElementById(sectionId);
+      if (element) observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const typewriterTexts = [
     "Backend Services & APIs",
@@ -120,9 +159,22 @@ const Portfolio = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground animated-bg relative overflow-hidden">
+      {/* Interactive Background Elements */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div 
+          className="absolute w-96 h-96 interactive-blob opacity-30"
+          style={{
+            left: mousePosition.x - 192,
+            top: mousePosition.y - 192,
+            transition: 'all 0.3s ease-out'
+          }}
+        />
+        <div className="absolute top-20 right-20 w-32 h-32 bg-gradient-to-br from-accent/20 to-primary/20 rounded-full animate-rotate opacity-50" />
+        <div className="absolute bottom-20 left-20 w-24 h-24 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full animate-bounce opacity-50" />
+      </div>
       {/* Header */}
-      <header className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b z-50">
+      <header className="fixed top-0 w-full glassmorphism border-b z-50">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="gradient-text text-2xl font-bold">
             Ahsan Zafar
@@ -154,12 +206,13 @@ const Portfolio = () => {
       </header>
 
       {/* Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center section-padding pt-24">
-        <div className="container mx-auto text-center">
-          <div className="floating">
-            <div className="w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-4xl font-bold text-white">
+      <section id="home" className="min-h-screen flex items-center justify-center section-padding pt-24 hero-bg relative">
+        <div className="container mx-auto text-center relative z-10">
+          <div className="floating relative">
+            <div className="w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-4xl font-bold text-white glow-effect">
               AZ
             </div>
+            <div className="absolute inset-0 w-32 h-32 mx-auto bg-gradient-to-br from-primary to-accent rounded-full pulse-ring opacity-30"></div>
           </div>
           
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
@@ -180,28 +233,30 @@ const Portfolio = () => {
             <Button 
               size="lg" 
               onClick={() => scrollToSection('projects')}
-              className="text-lg px-8"
+              className="text-lg px-8 glow-effect hover:scale-105 transition-all duration-300"
             >
+              <Sparkles className="h-4 w-4 mr-2" />
               View My Work
             </Button>
             <Button 
               variant="outline" 
               size="lg"
               onClick={() => scrollToSection('contact')}
-              className="text-lg px-8"
+              className="text-lg px-8 hover:scale-105 transition-all duration-300"
             >
+              <Zap className="h-4 w-4 mr-2" />
               Contact Me
             </Button>
           </div>
 
-          <div className="mt-12 animate-bounce">
-            <ChevronDown className="h-8 w-8 mx-auto text-muted-foreground" />
+          <div className="mt-12 animate-bounce cursor-pointer" onClick={() => scrollToSection('about')}>
+            <ChevronDown className="h-8 w-8 mx-auto text-muted-foreground hover:text-primary transition-colors" />
           </div>
         </div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="section-padding bg-muted/30">
+      <section id="about" className="section-padding section-bg-alt relative">
         <div className="container mx-auto">
           <h2 className="text-4xl font-bold text-center mb-16">About Me</h2>
           
@@ -264,7 +319,7 @@ const Portfolio = () => {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {skills.map((skill, index) => (
-              <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <Card key={index} className="card-hover glassmorphism">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3 mb-4">
                     <skill.icon className="h-6 w-6 text-primary" />
@@ -296,21 +351,21 @@ const Portfolio = () => {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="section-padding bg-muted/30">
+      <section id="projects" className="section-padding section-bg-alt relative">
         <div className="container mx-auto">
           <h2 className="text-4xl font-bold text-center mb-16">Featured Projects</h2>
           
           <div className="grid md:grid-cols-2 gap-8">
             {projects.map((project) => (
-              <Card key={project.id} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <Card key={project.id} className="card-hover glassmorphism group">
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between mb-4">
-                    <h3 className="text-xl font-semibold">{project.name}</h3>
+                    <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">{project.name}</h3>
                     <div className="flex items-center gap-2">
-                      <Button variant="ghost" size="icon">
+                      <Button variant="ghost" size="icon" className="hover:scale-110 transition-transform">
                         <Github className="h-4 w-4" />
                       </Button>
-                      <Button variant="ghost" size="icon">
+                      <Button variant="ghost" size="icon" className="hover:scale-110 transition-transform">
                         <ExternalLink className="h-4 w-4" />
                       </Button>
                     </div>
@@ -348,8 +403,9 @@ const Portfolio = () => {
           </div>
 
           <div className="text-center mt-12">
-            <Button variant="outline" size="lg">
+            <Button variant="outline" size="lg" className="hover:scale-105 transition-all duration-300 glow-effect">
               <Github className="h-4 w-4 mr-2" />
+              <Rocket className="h-4 w-4 mr-2" />
               View All on GitHub
             </Button>
           </div>
@@ -389,32 +445,33 @@ const Portfolio = () => {
               </div>
             </div>
 
-            <Card>
+            <Card className="glassmorphism">
               <CardContent className="p-6">
                 <form onSubmit={handleContactSubmit} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="text-sm font-medium mb-2 block">Name</label>
-                      <Input placeholder="Your name" required />
+                      <Input placeholder="Your name" required className="hover:border-primary transition-colors" />
                     </div>
                     <div>
                       <label className="text-sm font-medium mb-2 block">Email</label>
-                      <Input type="email" placeholder="your@email.com" required />
+                      <Input type="email" placeholder="your@email.com" required className="hover:border-primary transition-colors" />
                     </div>
                   </div>
                   <div>
                     <label className="text-sm font-medium mb-2 block">Subject</label>
-                    <Input placeholder="Project inquiry" required />
+                    <Input placeholder="Project inquiry" required className="hover:border-primary transition-colors" />
                   </div>
                   <div>
                     <label className="text-sm font-medium mb-2 block">Message</label>
                     <Textarea 
                       placeholder="Tell me about your project or inquiry..." 
-                      className="min-h-[120px]"
+                      className="min-h-[120px] hover:border-primary transition-colors"
                       required 
                     />
                   </div>
-                  <Button type="submit" className="w-full">
+                  <Button type="submit" className="w-full hover:scale-105 transition-all duration-300 glow-effect">
+                    <Zap className="h-4 w-4 mr-2" />
                     Send Message
                   </Button>
                 </form>
@@ -432,13 +489,13 @@ const Portfolio = () => {
             Full Stack Developer • Building Digital Excellence
           </p>
           <div className="flex justify-center gap-4">
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className="hover:scale-110 hover:text-primary transition-all duration-300">
               <Github className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className="hover:scale-110 hover:text-primary transition-all duration-300">
               <Mail className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className="hover:scale-110 hover:text-primary transition-all duration-300">
               <Phone className="h-5 w-5" />
             </Button>
           </div>

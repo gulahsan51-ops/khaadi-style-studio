@@ -104,6 +104,24 @@
     @apply bg-gradient-to-br from-primary/20 to-accent/20;
   }
 
+  .hero-bg {
+    background: linear-gradient(135deg, hsl(var(--primary)/0.1) 0%, hsl(var(--accent)/0.1) 100%),
+                radial-gradient(circle at 20% 50%, hsl(var(--primary)/0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, hsl(var(--accent)/0.2) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, hsl(var(--primary)/0.1) 0%, transparent 50%);
+  }
+
+  .section-bg-alt {
+    background: linear-gradient(45deg, hsl(var(--background)) 0%, hsl(var(--muted)/0.3) 100%),
+                radial-gradient(ellipse at 70% 0%, hsl(var(--accent)/0.1) 0%, transparent 60%);
+  }
+
+  .animated-bg {
+    background: linear-gradient(-45deg, hsl(var(--primary)/0.05), hsl(var(--accent)/0.05), hsl(var(--primary)/0.1), hsl(var(--accent)/0.1));
+    background-size: 400% 400%;
+    animation: gradient-shift 15s ease infinite;
+  }
+
   .typewriter {
     overflow: hidden;
     border-right: 0.15em solid hsl(var(--primary));
@@ -124,8 +142,91 @@
     animation: float 6s ease-in-out infinite;
   }
 
+  .pulse-ring {
+    animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+  }
+
+  .glow-effect {
+    box-shadow: 0 0 20px hsl(var(--primary)/0.3), 0 0 40px hsl(var(--primary)/0.1);
+  }
+
+  .card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-hover:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 25px 50px -12px hsl(var(--primary)/0.25);
+  }
+
+  .interactive-blob {
+    background: linear-gradient(45deg, hsl(var(--primary)/0.1), hsl(var(--accent)/0.1));
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    animation: blob-morph 8s ease-in-out infinite;
+  }
+
+  .parallax-bg {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
   .section-padding {
     @apply py-20 px-4 md:px-8;
+  }
+
+  .glassmorphism {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .dark .glassmorphism {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes blob-morph {
+  0%, 100% {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
+    transform: rotate(90deg) scale(1.1);
+  }
+  50% {
+    border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
+    transform: rotate(180deg) scale(0.9);
+  }
+  75% {
+    border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
+    transform: rotate(270deg) scale(1.05);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.33);
+    opacity: 1;
+  }
+  80%, 100% {
+    transform: scale(1.33);
+    opacity: 0;
   }
 }
 
@@ -148,6 +249,34 @@
   }
 }
 
+@keyframes slide-in-up {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 html {
   scroll-behavior: smooth;
+}
+
+.animate-slide-in-up {
+  animation: slide-in-up 0.8s ease-out forwards;
+}
+
+.animate-rotate {
+  animation: rotate 20s linear infinite;
 }
